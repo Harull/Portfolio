@@ -91,11 +91,11 @@ body {
   transform: translateY(-5px);
 }
 
-/* .card .img {
+.card .img {
   height: 100px;
   background: #11152a;
   margin-bottom: 10px;
-} */
+}
 
 .card h3 {
   font-size: 14px;
