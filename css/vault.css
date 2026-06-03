@@ -1,0 +1,300 @@
+/* ============================================================
+   LG-DEV ARCHIVE — vault.css
+   Vault section, filter bar, cartridge grid & cards,
+   3D tilt sheen, drag ghost, expand modal
+   ============================================================ */
+
+/* ── Vault section ─────────────────────────────────────────── */
+#vault-section { width: 100%; max-width: 980px; padding-bottom: 80px; }
+
+.vault-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--accent-border); position: relative;
+}
+.vault-header::after {
+  content: ''; position: absolute; bottom: -1px; left: 0;
+  width: 90px; height: 1px; background: var(--neon-blue); box-shadow: var(--glow-sm);
+}
+.vault-title {
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.25em; color: var(--text-secondary);
+}
+.vault-meta  { display: flex; align-items: center; gap: 16px; }
+.vault-count { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); }
+.vault-hint  {
+  font-family: var(--font-mono); font-size: 8px;
+  color: rgba(0,180,255,0.25); letter-spacing: 0.08em;
+  animation: blink 3s ease-in-out infinite;
+}
+
+/* ── Filter bar ────────────────────────────────────────────── */
+.vault-filter-bar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 24px;
+}
+.filter-btn {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.1em; padding: 7px 16px;
+  border: 1px solid var(--accent-border); border-radius: 3px;
+  background: transparent; color: var(--text-secondary);
+  cursor: none; transition: all 0.15s ease; text-transform: uppercase;
+}
+.filter-btn:hover {
+  color: var(--neon-blue); border-color: rgba(0,180,255,0.5); background: var(--accent-glow);
+}
+.filter-btn.active {
+  color: var(--neon-blue); border-color: var(--neon-blue);
+  background: rgba(0,180,255,0.08); box-shadow: 0 0 10px rgba(0,180,255,0.2);
+}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.vault-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 16px;
+}
+
+/* ── Cartridge card ────────────────────────────────────────── */
+.cartridge {
+  position: relative; width: 100%; aspect-ratio: 2 / 3;
+  cursor: none; user-select: none;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: filter 0.2s ease, opacity 0.3s ease;
+  outline: none;
+}
+/* Hidden cards (filtered out) — fade instead of display:none to keep grid intact */
+.cartridge.hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: scale(0.92) !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.cartridge.is-inserted { opacity: 0.3; pointer-events: none; filter: grayscale(0.7); }
+.cartridge:focus-visible .cartridge-inner { border-color: var(--neon-cyan); box-shadow: var(--glow-md); }
+
+/* Inner */
+.cartridge-inner {
+  width: 100%; height: 100%;
+  border-radius: 7px 7px 12px 12px;
+  border: 1px solid var(--accent-border);
+  background: linear-gradient(160deg, #0d1e35 0%, #060e1c 100%);
+  overflow: hidden; display: flex; flex-direction: column; position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.cartridge:hover .cartridge-inner {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0,180,255,0.2), 0 16px 48px rgba(0,0,0,0.8);
+}
+
+/* Sheen — dynamic light reflection driven by JS tilt */
+.cartridge-sheen {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 3;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cartridge:hover .cartridge-sheen { opacity: 1; }
+
+/* Connector notch */
+.cartridge-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 38%; height: 9px; background: var(--bg-void);
+  border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;
+  border: 1px solid var(--accent-border); border-top: none; z-index: 2;
+}
+
+/* Cover */
+.cartridge-cover {
+  flex: 1; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #0a1525 0%, #050d15 100%);
+}
+.cartridge-cover-art {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0.72; transition: transform 0.45s ease, opacity 0.2s ease;
+}
+.cartridge:hover .cartridge-cover-art { transform: scale(1.08); opacity: 1; }
+
+/* Default cover placeholder */
+.cartridge-cover-default {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.cartridge-cover-bg {
+  position: absolute; inset: 0; opacity: 0.12;
+  background-size: 18px 18px;
+  background-image:
+    linear-gradient(rgba(0,180,255,0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.4) 1px, transparent 1px);
+}
+.cartridge-cover-letter {
+  font-family: var(--font-display); font-size: 40px; font-weight: 900;
+  position: relative; z-index: 1; line-height: 1;
+}
+
+/* Scan sweep on hover */
+.cartridge-scan {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,231,0.7), transparent);
+  transform: translateY(-100%);
+}
+.cartridge:hover .cartridge-scan { animation: scan-sweep 0.7s ease forwards; }
+
+/* Hover info badge */
+.cartridge-hover-badge {
+  position: absolute; bottom: 8px; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.1em;
+  padding: 3px 8px; background: rgba(0,0,0,0.82);
+  border: 1px solid var(--accent-border); color: var(--neon-blue);
+  white-space: nowrap; border-radius: 2px;
+  opacity: 0; transition: all 0.2s ease; z-index: 5; pointer-events: none;
+}
+.cartridge:hover .cartridge-hover-badge { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Label strip at bottom */
+.cartridge-label {
+  padding: 8px 8px 10px;
+  background: linear-gradient(180deg, #0a1828 0%, #060e1c 100%);
+  border-top: 1px solid rgba(0,180,255,0.12); flex-shrink: 0;
+}
+.cartridge-label-strip { height: 2px; margin-bottom: 5px; border-radius: 1px; opacity: 0.6; }
+.cartridge-name {
+  font-family: var(--font-display); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--text-primary); line-height: 1.2;
+  margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cartridge-sub {
+  font-family: var(--font-mono); font-size: 6px; color: var(--text-dim);
+  letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Drag states */
+.cartridge.dragging { opacity: 0.2; }
+.drag-ghost {
+  position: fixed; pointer-events: none; z-index: 99998;
+  opacity: 0.92; transform: rotate(6deg) scale(1.08);
+  border-radius: 6px; border: 1px solid var(--neon-blue);
+  box-shadow: var(--glow-lg); overflow: hidden; background: var(--bg-card);
+}
+
+/* ── Expand modal ──────────────────────────────────────────── */
+#expand-modal {
+  position: fixed; inset: 0;
+  background: rgba(2,5,9,0.92);
+  z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+#expand-modal.open { opacity: 1; pointer-events: all; }
+
+.expand-modal-inner {
+  width: 100%; max-width: 760px; max-height: 90vh;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-border);
+  border-radius: 10px; overflow: hidden;
+  display: flex; flex-direction: column;
+  animation: modal-in 0.3s ease forwards;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 30px rgba(0,180,255,0.08);
+}
+
+.expand-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--accent-border); flex-shrink: 0;
+}
+.expand-modal-title {
+  font-family: var(--font-display); font-size: 14px; font-weight: 700;
+  color: var(--neon-blue); text-shadow: var(--glow-sm); letter-spacing: 0.1em;
+}
+.expand-modal-tagline {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--text-secondary); letter-spacing: 0.08em; margin-top: 2px;
+}
+.expand-modal-close {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em;
+  padding: 5px 10px; border: 1px solid rgba(255,80,80,0.3); border-radius: 2px;
+  background: rgba(255,80,80,0.05); color: rgba(255,80,80,0.5);
+  cursor: none; transition: all 0.15s ease;
+}
+.expand-modal-close:hover { color: #ff5050; border-color: #ff5050; box-shadow: 0 0 8px rgba(255,80,80,0.2); }
+
+.expand-modal-body {
+  padding: 20px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--neon-dim) var(--bg-void);
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+.expand-cover {
+  width: 100%; height: 220px;
+  border-radius: 6px; overflow: hidden;
+  background: var(--bg-card); border: 1px solid var(--accent-border); position: relative;
+}
+.expand-cover img { width: 100%; height: 100%; object-fit: cover; }
+.expand-cover-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 64px; font-weight: 900;
+  position: relative; overflow: hidden;
+}
+.expand-cover-placeholder-bg {
+  position: absolute; inset: 0; opacity: 0.08;
+  background-size: 24px 24px;
+  background-image:
+    linear-gradient(rgba(0,180,255,0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.4) 1px, transparent 1px);
+}
+
+.expand-description {
+  font-family: var(--font-body); font-size: 14px;
+  color: var(--text-secondary); line-height: 1.7;
+}
+
+.expand-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.expand-meta-item label {
+  font-family: var(--font-mono); font-size: 8px;
+  letter-spacing: 0.15em; color: var(--text-dim); display: block; margin-bottom: 4px;
+}
+.expand-meta-item p { font-family: var(--font-body); font-size: 13px; color: var(--text-primary); font-weight: 500; }
+.expand-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.expand-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.expand-link-btn {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em;
+  padding: 7px 14px; border: 1px solid var(--accent-border); border-radius: 3px;
+  background: rgba(0,180,255,0.05); color: var(--neon-blue);
+  text-decoration: none; transition: all 0.15s ease; cursor: none;
+}
+.expand-link-btn:hover { background: rgba(0,180,255,0.12); border-color: var(--neon-blue); box-shadow: var(--glow-sm); }
+
+/* EXPAND button inside console info screen */
+.info-expand-btn {
+  display: flex; align-items: center; gap: 6px;
+  align-self: flex-start; margin-top: 4px;
+  font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.12em;
+  padding: 5px 10px; border: 1px solid var(--accent-border); border-radius: 2px;
+  background: rgba(0,180,255,0.04); color: var(--text-secondary);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.info-expand-btn:hover { color: var(--neon-blue); border-color: var(--neon-blue); box-shadow: var(--glow-sm); }
+.info-expand-btn svg { animation: expand-hint 2s ease-in-out infinite; }
+
+/* Inline links inside console info screen */
+.info-link {
+  font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em;
+  padding: 2px 8px; border: 1px solid var(--accent-border); border-radius: 2px;
+  background: rgba(0,180,255,0.04); color: var(--neon-blue);
+  text-decoration: none; transition: all 0.15s ease;
+}
+.info-link:hover { background: rgba(0,180,255,0.1); border-color: var(--neon-blue); box-shadow: var(--glow-sm); }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .vault-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .expand-meta-grid { grid-template-columns: 1fr; }
+}

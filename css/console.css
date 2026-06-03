@@ -1,0 +1,307 @@
+/* ============================================================
+   LG-DEV ARCHIVE — console.css
+   Console device, screen states, all buttons & controls
+   ============================================================ */
+
+#console-section {
+  width: 100%; max-width: 1060px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+
+.console-label {
+  align-self: flex-start;
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.25em; color: var(--text-dim);
+  display: flex; align-items: center; gap: 10px;
+}
+.console-label::before {
+  content: ''; display: block; width: 20px; height: 1px;
+  background: var(--neon-blue); box-shadow: var(--glow-sm);
+}
+
+/* ── Device ────────────────────────────────────────────────── */
+#console-device {
+  position: relative; width: 860px; height: 420px;
+  animation: console-breathe 4s ease-in-out infinite;
+  user-select: none;
+  transition: filter 0.5s ease;
+}
+#console-device.cartridge-inserted { animation: none; }
+
+/* ── Body shell ────────────────────────────────────────────── */
+.console-body {
+  position: absolute; inset: 0;
+  background: linear-gradient(155deg, #0e2040 0%, #060e1c 45%, #080f1c 100%);
+  border: 1px solid var(--accent-border);
+  border-radius: 30px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -2px 0 rgba(0,0,0,0.6),
+    inset 1px 0 0 rgba(255,255,255,0.02),
+    0 8px 48px rgba(0,0,0,0.9),
+    0 0 0 1px rgba(0,180,255,0.08);
+}
+.console-body::before {
+  content: ''; position: absolute; left: -12px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 160px;
+  background: linear-gradient(180deg, #0c1e38 0%, #060e1c 100%);
+  border: 1px solid var(--accent-border); border-right: none;
+  border-radius: 16px 0 0 16px;
+}
+.console-body::after {
+  content: ''; position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 160px;
+  background: linear-gradient(180deg, #0c1e38 0%, #060e1c 100%);
+  border: 1px solid var(--accent-border); border-left: none;
+  border-radius: 0 16px 16px 0;
+}
+
+/* ── Screen bezel ──────────────────────────────────────────── */
+.console-screen-bezel {
+  position: absolute;
+  top: 30px; left: 130px; right: 130px; bottom: 30px;
+  background: #010407;
+  border: 2px solid rgba(0,180,255,0.28);
+  border-radius: 10px;
+  box-shadow: inset 0 0 32px rgba(0,0,0,0.95), 0 0 14px rgba(0,180,255,0.12);
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.5s ease;
+}
+/* CRT vignette */
+.console-screen-bezel::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none; z-index: 10;
+}
+/* Scanlines */
+.console-screen-bezel::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px
+  );
+  pointer-events: none; z-index: 11;
+}
+
+/* Accent glow ring when project loaded — driven by JS CSS var */
+#console-device.cartridge-inserted .console-screen-bezel {
+  border-color: var(--console-accent, rgba(0,180,255,0.5));
+  box-shadow:
+    inset 0 0 32px rgba(0,0,0,0.9),
+    0 0 28px color-mix(in srgb, var(--console-accent, #00b4ff) 40%, transparent);
+  animation: screen-accent-pulse 2.5s ease-in-out infinite;
+}
+
+#console-screen {
+  position: absolute; inset: 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; z-index: 1;
+}
+
+/* ── Drop hint ─────────────────────────────────────────────── */
+.drop-hint {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,255,231,0.04);
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.2em; color: var(--neon-cyan);
+  opacity: 0; transition: opacity 0.2s ease; pointer-events: none;
+}
+#console-device.drag-over .console-screen-bezel {
+  border-color: var(--neon-cyan);
+  box-shadow: inset 0 0 24px rgba(0,255,231,0.08), 0 0 28px rgba(0,255,231,0.25);
+}
+#console-device.drag-over .drop-hint { opacity: 1; }
+
+/* ── Screen flash ──────────────────────────────────────────── */
+.screen-transition {
+  position: absolute; inset: 0;
+  background: var(--neon-blue);
+  opacity: 0; pointer-events: none; z-index: 50;
+}
+
+/* ── Cartridge slot ────────────────────────────────────────── */
+.cartridge-slot {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 88px; height: 9px;
+  background: #010407;
+  border: 1px solid rgba(0,180,255,0.18); border-top: none;
+  border-radius: 0 0 5px 5px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.cartridge-slot.has-cartridge { border-color: var(--neon-blue); }
+.cartridge-slot-glow {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  transform: scaleX(0); transition: transform 0.5s ease;
+}
+.cartridge-slot.has-cartridge .cartridge-slot-glow { transform: scaleX(1); }
+
+/* ── Left controls ─────────────────────────────────────────── */
+.console-left-controls {
+  position: absolute; left: 22px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.analog-stick {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #1a3050, #08121e);
+  border: 1px solid rgba(0,180,255,0.2);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+}
+.dpad { width: 72px; height: 72px; position: relative; }
+.dpad-h, .dpad-v {
+  position: absolute; background: #0a1830;
+  border: 1px solid rgba(0,180,255,0.18); border-radius: 3px;
+}
+.dpad-h { top: 50%; left: 0; right: 0; height: 33%; transform: translateY(-50%); }
+.dpad-v { left: 50%; top: 0; bottom: 0; width: 33%; transform: translateX(-50%); }
+.dpad-center {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 33%; height: 33%; background: #08121e; border-radius: 2px; z-index: 2;
+}
+
+/* ── Right buttons ─────────────────────────────────────────── */
+.console-right-controls {
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.ctrl-btn {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  padding: 6px 12px;
+  border: 1px solid rgba(0,180,255,0.22); border-radius: 3px;
+  background: rgba(0,180,255,0.04); color: var(--text-secondary);
+  cursor: none; transition: all 0.15s ease; text-transform: uppercase;
+  white-space: nowrap; min-width: 64px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.ctrl-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--accent-glow);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.2s ease;
+}
+.ctrl-btn:hover { color: var(--neon-blue); border-color: var(--neon-blue); box-shadow: var(--glow-sm); transform: translateX(-2px); }
+.ctrl-btn:hover::before { transform: scaleX(1); }
+.ctrl-btn:active { transform: translateX(0) scale(0.94); }
+.ctrl-btn span { position: relative; z-index: 1; }
+
+/* EJECT — red variant */
+.ctrl-btn#btn-eject {
+  border-color: rgba(255, 80, 80, 0.3);
+  color: rgba(255, 80, 80, 0.55);
+  background: rgba(255, 80, 80, 0.04);
+}
+.ctrl-btn#btn-eject::before { background: rgba(255,80,80,0.08); }
+.ctrl-btn#btn-eject:hover {
+  color: #ff5050;
+  border-color: #ff5050;
+  box-shadow: 0 0 10px rgba(255,80,80,0.25);
+}
+
+/* ── Bottom bar ────────────────────────────────────────────── */
+.console-bottom-bar {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; align-items: center;
+}
+.home-btn {
+  width: 30px; height: 6px;
+  background: rgba(0,180,255,0.12); border: 1px solid rgba(0,180,255,0.22); border-radius: 3px;
+  cursor: none; transition: all 0.15s ease;
+}
+.home-btn:hover { background: rgba(0,180,255,0.28); box-shadow: 0 0 8px rgba(0,180,255,0.35); }
+.console-logo { font-family: var(--font-display); font-size: 6px; font-weight: 900; letter-spacing: 0.15em; color: rgba(0,180,255,0.2); }
+
+/* ── Speaker grills ────────────────────────────────────────── */
+.speaker-grill { position: absolute; bottom: 18px; display: flex; flex-direction: column; gap: 2px; }
+.speaker-grill.left  { left: 20px; }
+.speaker-grill.right { right: 20px; }
+.speaker-dot-row { display: flex; gap: 2px; }
+.speaker-dot { width: 2px; height: 2px; border-radius: 50%; background: rgba(0,180,255,0.18); }
+
+/* ── Mobile controls ───────────────────────────────────────── */
+.mobile-ctrl-bar { display: none; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.mobile-ctrl-bar .ctrl-btn { font-size: 9px; padding: 6px 12px; cursor: pointer; }
+
+/* ── Screen: Idle ──────────────────────────────────────────── */
+.screen-idle {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 16px;
+}
+.idle-icon {
+  width: 44px; height: 44px;
+  border: 1px solid var(--accent-border); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--neon-dim);
+  animation: idle-float 3.5s ease-in-out infinite;
+  box-shadow: inset 0 0 12px rgba(0,180,255,0.05);
+}
+.idle-title {
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.18em; color: var(--neon-blue);
+  text-shadow: var(--glow-sm);
+  animation: screen-accent-pulse 2.5s ease-in-out infinite;
+}
+.idle-sub {
+  font-family: var(--font-mono); font-size: 8px;
+  color: var(--text-dim); letter-spacing: 0.12em;
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+/* ── Screen: About ─────────────────────────────────────────── */
+.screen-about {
+  width: 100%; height: 100%; padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 9px;
+  overflow-y: auto; scrollbar-width: none;
+}
+.screen-about::-webkit-scrollbar { display: none; }
+.about-header { border-bottom: 1px solid var(--accent-border); padding-bottom: 8px; }
+.about-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--neon-blue); text-shadow: var(--glow-sm); letter-spacing: 0.1em; }
+.about-role { font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); letter-spacing: 0.1em; margin-top: 2px; }
+.about-bio  { font-family: var(--font-body); font-size: 11px; color: var(--text-secondary); line-height: 1.65; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.stat-box { border: 1px solid var(--accent-border); border-radius: 4px; padding: 7px 9px; background: rgba(0,180,255,0.03); }
+.stat-value { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--neon-blue); line-height: 1; }
+.stat-label { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.12em; color: var(--text-dim); margin-top: 3px; }
+.about-skills { display: flex; flex-wrap: wrap; gap: 4px; }
+
+/* ── Screen: Info ──────────────────────────────────────────── */
+.screen-info {
+  width: 100%; height: 100%; padding: 13px 15px;
+  display: flex; flex-direction: column; gap: 7px;
+  overflow-y: auto; scrollbar-width: none;
+}
+.screen-info::-webkit-scrollbar { display: none; }
+.info-header { display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--accent-border); padding-bottom: 7px; gap: 8px; }
+.info-title   { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--neon-blue); text-shadow: var(--glow-sm); letter-spacing: 0.1em; }
+.info-tagline { font-family: var(--font-mono); font-size: 9px; color: var(--text-secondary); letter-spacing: 0.08em; margin-top: 1px; }
+.info-status  { font-family: var(--font-mono); font-size: 7px; padding: 2px 6px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+.info-status.released       { border: 1px solid rgba(0,255,170,0.4);  color: #00ffaa; }
+.info-status.in-development { border: 1px solid rgba(255,180,0,0.4);  color: #ffb400; }
+.info-status.prototype      { border: 1px solid rgba(180,0,255,0.4);  color: #cc44ff; }
+.info-description { font-family: var(--font-body); font-size: 11px; color: var(--text-secondary); line-height: 1.6; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 3px; }
+.info-field label { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.15em; color: var(--text-dim); display: block; margin-bottom: 2px; }
+.info-field p { font-family: var(--font-body); font-size: 11px; color: var(--text-primary); font-weight: 500; }
+.info-techs { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+
+/* ── Screen: Demo ──────────────────────────────────────────── */
+.screen-demo { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000; position: relative; }
+.screen-demo iframe, .screen-demo video { width: 100%; height: 100%; border: none; object-fit: contain; }
+.demo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--text-dim); }
+.demo-placeholder .play-icon { width: 44px; height: 44px; border: 2px solid var(--neon-dim); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--neon-dim); }
+.demo-placeholder p { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 1050px) {
+  #console-device { width: 680px; height: 340px; }
+  .console-screen-bezel { left: 110px; right: 110px; }
+}
+@media (max-width: 800px) {
+  #console-device { width: 100%; max-width: 560px; height: 280px; }
+  .console-screen-bezel { left: 96px; right: 96px; top: 24px; bottom: 24px; }
+}
+@media (max-width: 700px) {
+  #console-device { width: 100%; max-width: 440px; height: 220px; }
+  .console-screen-bezel { left: 74px; right: 74px; top: 20px; bottom: 20px; }
+  .console-left-controls, .console-right-controls, .speaker-grill { display: none; }
+  .mobile-ctrl-bar { display: flex !important; }
+}
