@@ -36,7 +36,7 @@ const CONFIG = {
     linkedin: "https://www.linkedin.com/in/giacosa-loic/",
     email:    "mailto:loic@giacosa.dev",
     itchio:   "https://itch.io/",
-    cv:       "misc/cv.pdf",                       
+    cv:       "misc/Designed_CV_GIACOSA_Loiic.pdf",                       
   },
 
   // ── Footer terminal — phrases qui défilent ─────────────────
