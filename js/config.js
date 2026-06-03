@@ -34,7 +34,7 @@ const CONFIG = {
 
   // ── Liens sociaux (sidenav) ───────────────────────────────
   links: {
-    github:   "https://https://github.com/harull/",
+    github:   "https://github.com/harull/",
     linkedin: "https://www.linkedin.com/in/giacosa-loic/",
     email:    "mailto:loic@giacosa.dev",
     itchio:   "https://itch.io/",
