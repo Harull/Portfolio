@@ -18,9 +18,9 @@ const PROJECTS = [
 
     descriptionLong: "Originally developed during the production of Sunward, LoiicBetterCables was created to support advanced rope gameplay systems such as rope swings, grappling hooks, slacklines, climbing ropes, and dynamic tether mechanics. Built on a Verlet Integration solver, the plugin provides custom attachment points, high-precision collisions, overlap events, runtime cable length modification, force application along the cable, and an experimental modular mesh rendering system. Designed with both programmers and designers in mind, all major features are fully exposed to Blueprints.",
 
-    accentColor: "#E67E22",
-    coverImage: "images/Test.png",
-    screenshots: ["images/Test.png", "images/Test.png","images/Test.png", "images/Test.png","images/Test.png", "images/Test.png"],
+    accentColor: "#3b3b3b",
+    coverImage: "images/cablePlugin/Cable_component_preview.png",
+    screenshots: ["images/cablePlugin/Cable_attachments.png", "images/cablePlugin/Cable_collisions_example.png", "images/cablePlugin/Cable_impulse_example.png"],
     videoUrl: "https://youtu.be/6GrBPunArmA",
     technologies: [
         "Unreal Engine 5.6",
@@ -55,11 +55,11 @@ const PROJECTS = [
 
     descriptionLong: "Created in a team of two over three days, Portal2++ began as a challenge to build a project around the EaseBounce function. Rather than limiting its use to a single feature, we integrated it throughout the entire experience to establish a consistent visual and gameplay identity. Inspired by Portal's puzzle design, the project combines environmental puzzles, dynamic interactions, and traversal mechanics. EaseBounce drives door animations, UI transitions, light flickering effects, and Aerial Faith Plate behaviors, demonstrating how a single technical concept can influence the feel of an entire game. As Gameplay Programmer, I was responsible for player movement systems and several gameplay mechanics.",
 
-    accentColor: "#F39C12",
+    accentColor: "#abb5c5",
 
-    coverImage: "",
+    coverImage: "images/portal/Cover.png",
 
-    screenshots: [],
+    screenshots: ["images/portal/MainMenu.PNG", "images/portal/Level_Editor_Preview.png", "images/portal/RoomImage1.PNG", "images/portal/RoomImage2.PNG"],
 
     videoUrl: "https://youtu.be/8eAtsNB623o",
 
@@ -108,11 +108,11 @@ const PROJECTS = [
       a custom Unreal Engine plugin I developed specifically to support advanced rope-based gameplay. I also designed and implemented the entire railway framework,\
       including rail connectors, spline-based tracks, railway vehicles, and traversal logic.",
 
-      accentColor: "#F5A623",
+      accentColor: "#ebafe6",
 
-      coverImage: "",
+      coverImage: "images/sunward/SunwardCover.png",
 
-      screenshots: [],
+      screenshots: ["images/sunward/enviroCaverne.png", "images/sunward/lac.png", "images/sunward/brokenTower.png", "images/sunward/grotteChampignon.png", "images/sunward/faille.png"],
 
       videoUrl: "https://www.youtube.com/watch?v=3GC9WdNLnZc",
 
@@ -168,11 +168,11 @@ const PROJECTS = [
 
     descriptionLong: "Developed over approximately two-three weeks as a team project, this recreation aimed to reproduce the responsiveness and precision that make Celeste's platforming so satisfying. Built entirely in native C++ using SFML, the project features a custom player controller, collision system, and platforming mechanics designed to match the feel of the original game. My primary contributions focused on player movement, collision detection and resolution, and the implementation of core gameplay mechanics.",
 
-    accentColor: "#6A5ACD",
+    accentColor: "#fe5235",
 
-    coverImage: "",
+    coverImage: "images/celeste/cover.png",
 
-    screenshots: [],
+    screenshots: ["images/celeste/main_menu.png", "images/celeste/climb.png", "images/celeste/contextualImage.png", "images/celeste/other_nice_level.png"],
 
     videoUrl: "https://youtu.be/wGeYyj__BWA",
 
@@ -213,9 +213,9 @@ const PROJECTS = [
     tagline: "Multiplayer Grocery Chaos Racing",
     description: "A chaotic multiplayer racing prototype where players control grandmothers pushing shopping carts through a supermarket. The goal is to complete a shopping list in the correct order and reach the checkout before opponents.",
     descriptionLong: "Super Granny Racing 2 Luxe Edition is a 2-week Unreal Engine 5.6 multiplayer prototype created as a learning exercise focused on online gameplay systems. The game turns a supermarket into a competitive arena where players race to collect grocery items in a specific order while using physics-driven shopping carts to bump, disrupt, and outmaneuver opponents.\n\nThe project was primarily built to explore Unreal Engine multiplayer systems, including replication (RepNotify, RPC), Steam Online Sessions, and networked gameplay logic. It also features third-person character controls with intentionally goofy and heavy movement, reinforcing the chaotic and comedic tone of the gameplay.\n\nBeyond gameplay, the project integrates replicated animations, IK systems for character/cart interaction, and physics-based multiplayer interactions designed to create emergent and unpredictable situations between players.",
-    accentColor: "#ffcc66",
-    coverImage: "",
-    screenshots: [],
+    accentColor: "#313131",
+    coverImage: "images/granny/Granny.png",
+    screenshots: ["images/granny/GrannyLobby.png", "images/granny/GrannyLobby2.png", "images/granny/GrannyAlley.png", "images/granny/GrannyRace.png", "images/granny/GrannyFinish.png"],
     videoUrl: "",
     technologies: [
         "Unreal Engine 5.6",
