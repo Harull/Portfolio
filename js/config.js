@@ -1,7 +1,5 @@
 // ============================================================
 //  LG-DEV ARCHIVE — config.js
-//  ✏️  Toute ta configuration personnelle est ici.
-//  Tu n'as jamais besoin de toucher au HTML ou aux autres JS.
 // ============================================================
 
 const CONFIG = {

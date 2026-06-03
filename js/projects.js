@@ -1,6 +1,5 @@
 // ============================================================
 //  LG-DEV ARCHIVE — projects.js
-//  ✏️  Ajoute / modifie tes projets ici.
 //
 //  Champs disponibles :
 //    id, title, tagline, description, descriptionLong,
