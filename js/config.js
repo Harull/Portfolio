@@ -8,9 +8,9 @@ const CONFIG = {
 
   // ── Identité ──────────────────────────────────────────────
   name:       "Loïc Giacosa",
-  alias:      "LG-DEV",
+  alias:      "LG-DEV / Haru",
   role:       "Game Developer · Unreal Engine Specialist",
-  email:      "loic@giacosa.dev",
+  email:      "loicgiacosa@gmail.com",
   location:   "France",
   yearsXp:    "2+",
 
@@ -34,11 +34,11 @@ const CONFIG = {
 
   // ── Liens sociaux (sidenav) ───────────────────────────────
   links: {
-    github:   "https://github.com/",
-    linkedin: "https://linkedin.com/",
+    github:   "https://https://github.com/harull/",
+    linkedin: "https://www.linkedin.com/in/giacosa-loic/",
     email:    "mailto:loic@giacosa.dev",
     itchio:   "https://itch.io/",
-    cv:       "#",                          // chemin vers ton CV PDF, ex: "assets/cv.pdf"
+    cv:       "#",                          // TODO mettre CV pdf ici
   },
 
   // ── Footer terminal — phrases qui défilent ─────────────────
