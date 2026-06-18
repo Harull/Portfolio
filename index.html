@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LG-DEV ARCHIVE — Loïc Giacosa</title>
+  <meta name="description" content="Game Developer Portfolio — Loïc Giacosa. Unreal Engine 5 developer crafting immersive experiences." />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/console.css" />
+  <link rel="stylesheet" href="css/vault.css" />
+  <link rel="stylesheet" href="css/mobile.css" />
+</head>
+<body>
+
+<!-- Power-on flash -->
+<div id="poweron-overlay"></div>
+
+<!-- Scroll progress bar -->
+<div id="scroll-progress"></div>
+
+<!-- FPS crosshair cursor -->
+<div id="cursor">
+  <div id="cursor-center"></div>
+  <div class="cursor-tick" id="cursor-tick-t"></div>
+  <div class="cursor-tick" id="cursor-tick-b"></div>
+  <div class="cursor-tick" id="cursor-tick-l"></div>
+  <div class="cursor-tick" id="cursor-tick-r"></div>
+  <div class="cursor-corner" id="cursor-corner-tl"></div>
+  <div class="cursor-corner" id="cursor-corner-tr"></div>
+  <div class="cursor-corner" id="cursor-corner-bl"></div>
+  <div class="cursor-corner" id="cursor-corner-br"></div>
+</div>
+
+<!-- Particle + constellation background -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Toast notifications -->
+<div id="toast-container"></div>
+
+<!-- Expand modal (injected by expand.js) -->
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════════════════ -->
+  <header id="header">
+    <div class="header-brand glitch" data-text="LG-DEV ARCHIVE">
+      <span id="header-brand" data-text="LG-DEV ARCHIVE">LG-DEV ARCHIVE</span>
+      <span class="header-brand-sub">/ LOÏC GIACOSA</span>
+    </div>
+    <div class="header-right">
+      <div class="header-time" id="header-time"></div>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span id="sys-status">SYS: ONLINE | 5 UNITS LOADED</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════
+       SIDE NAV — IDs used by config.js to inject links
+  ═══════════════════════════════════════════════════════ -->
+  <nav id="sidenav" aria-label="Social links">
+
+    <a class="nav-icon" id="nav-github" href="#" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+      </svg>
+      <span class="tooltip">GITHUB</span>
+    </a>
+
+    <a class="nav-icon" id="nav-linkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+      <span class="tooltip">LINKEDIN</span>
+    </a>
+
+    <a class="nav-icon" id="nav-email" href="#" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      <span class="tooltip">EMAIL</span>
+    </a>
+
+    <div class="nav-separator"></div>
+
+    <a class="nav-icon" id="nav-itchio" href="#" target="_blank" rel="noopener" aria-label="Itch.io">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <path d="M8 21h8M12 17v4"/>
+        <path d="M7 8l5 3 5-3"/>
+      </svg>
+      <span class="tooltip">ITCH.IO</span>
+    </a>
+
+    <a class="nav-icon" id="nav-cv" href="#" aria-label="Download CV">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="11" x2="12" y2="17"/>
+        <polyline points="9 14 12 17 15 14"/>
+      </svg>
+      <span class="tooltip">RÉSUMÉ</span>
+    </a>
+
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════
+       MAIN
+  ═══════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <div class="console-label anim-init anim-fade-in">
+      // INTERACTIVE CONSOLE — CLICK OR DRAG A CARTRIDGE TO LOAD
+    </div>
+
+    <!-- Onboarding hint (disappears after first interaction) -->
+    <div class="onboarding-hint anim-init anim-fade-in" id="onboarding-hint">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span>SELECT A CARTRIDGE BELOW TO BEGIN</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+
+    <!-- ── CONSOLE ─────────────────────────────────────────── -->
+    <section id="console-section" aria-label="Game console viewer">
+
+      <div id="console-device" role="region" aria-label="Console screen">
+
+        <div class="console-body"></div>
+
+        <div class="speaker-grill left" aria-hidden="true">
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+        </div>
+        <div class="speaker-grill right" aria-hidden="true">
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+          <div class="speaker-dot-row"><div class="speaker-dot"></div><div class="speaker-dot"></div><div class="speaker-dot"></div></div>
+        </div>
+
+        <div class="cartridge-slot" id="cartridge-slot">
+          <div class="cartridge-slot-glow" id="slot-glow"></div>
+        </div>
+
+        <div class="console-left-controls" aria-hidden="true">
+          <div class="analog-stick"></div>
+          <div class="dpad">
+            <div class="dpad-h"></div>
+            <div class="dpad-v"></div>
+            <div class="dpad-center"></div>
+          </div>
+        </div>
+
+        <div class="console-screen-bezel">
+          <div id="console-screen" class="anim-flicker"></div>
+          <div class="drop-hint" aria-hidden="true">INSERT CARTRIDGE</div>
+        </div>
+
+        <div class="console-right-controls">
+          <button class="ctrl-btn" id="btn-more"  aria-label="More info"><span>MORE</span></button>
+          <button class="ctrl-btn" id="btn-demo"  aria-label="Show demo"><span>DEMO</span></button>
+          <button class="ctrl-btn btn-eject-right" id="btn-eject" aria-label="Eject cartridge" style="display:none"><span>EJECT</span></button>
+        </div>
+
+        <div class="console-bottom-bar" aria-hidden="true">
+          <div class="home-btn"></div>
+          <span class="console-logo">LG</span>
+          <div class="home-btn"></div>
+        </div>
+
+      </div><!-- /#console-device -->
+
+      <div class="mobile-ctrl-bar" role="toolbar" aria-label="Console controls">
+        <button class="ctrl-btn" data-action="more"><span>MORE</span></button>
+        <button class="ctrl-btn" data-action="demo"><span>DEMO</span></button>
+        <button class="ctrl-btn" data-action="eject"
+          style="display:none;border-color:rgba(255,80,80,0.4);color:rgba(255,80,80,0.6);">
+          <span>EJECT</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Scroll hint -->
+    <div class="scroll-arrow anim-init anim-fade-in" id="scroll-arrow"
+         role="button" tabindex="0" aria-label="Scroll to vault"
+         onclick="document.getElementById('vault-section').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+      <span>VAULT</span>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider anim-init anim-fade-in">
+      <div class="divider-line"></div>
+      <span class="divider-label">// CARTRIDGE VAULT</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- ── VAULT ────────────────────────────────────────────── -->
+    <section id="vault-section" aria-label="Game vault">
+      <div class="vault-header">
+        <span class="vault-title">// ARCHIVE ENTRIES</span>
+        <div class="vault-meta">
+          <span class="vault-hint">CLICK OR DRAG TO LOAD</span>
+          <span class="vault-count" id="vault-count">— ENTRIES</span>
+        </div>
+      </div>
+
+      <!-- Filter bar (populated by ui.js) -->
+      <div class="vault-filter-bar" id="vault-filter-bar" role="toolbar" aria-label="Filter by tag"></div>
+
+      <div class="vault-grid" id="vault-grid" role="list" aria-label="Game cartridges"></div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer id="footer">
+
+    <div class="footer-col">
+      <span class="footer-label">DEVELOPER</span>
+      <span class="footer-value" id="footer-dev-name">LOÏC GIACOSA</span>
+      <span class="footer-value" id="footer-dev-email" style="color:var(--text-dim)">loic@giacosa.dev</span>
+    </div>
+
+    <div class="footer-col" style="align-items:center">
+      <span class="footer-label">SYSTEM</span>
+      <span class="footer-value" id="footer-build">BUILD 2025.01</span>
+      <span class="footer-value" style="color:var(--text-dim)">UNREAL ENGINE PORTFOLIO</span>
+    </div>
+
+    <div class="footer-col" style="align-items:flex-end">
+      <span class="footer-label">TERMINAL</span>
+      <div id="footer-terminal">
+        <span id="footer-terminal-line"></span>
+      </div>
+    </div>
+
+  </footer>
+
+</div><!-- /#app -->
+
+<!-- ── Scripts — order matters ── -->
+<script src="js/config.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/expand.js"></script>
+<script src="js/console.js"></script>
+<script src="js/dragdrop.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    ConsoleManager.init();
+    DragDrop.init();
+    UI.init();
+
+    // Reveal staggered elements
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.anim-init').forEach(el => { el.style.opacity = ''; });
+    });
+
+    // Hide scroll arrow after scrolling
+    const arrow = document.getElementById('scroll-arrow');
+    window.addEventListener('scroll', () => {
+      if (arrow) arrow.style.opacity = window.scrollY > 80 ? '0' : '1';
+    }, { passive: true });
+  });
+</script>
+
+</body>
+</html>
