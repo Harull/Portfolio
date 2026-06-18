@@ -1,0 +1,382 @@
+/* ============================================================
+   LG-DEV ARCHIVE — mobile.css
+   Additive mobile overrides only.
+   Link AFTER all other stylesheets in index.html.
+   Does NOT modify the desktop experience.
+   ============================================================ */
+
+/* ── Small phones: base resets ─────────────────────────────── */
+@media (max-width: 480px) {
+
+  /* ── Cursor: désactiver sur touch ──────────────────────────── */
+  body { cursor: auto; }
+  #cursor { display: none !important; }
+
+  /* ── Scroll progress: garder fin ──────────────────────────── */
+  #scroll-progress { height: 2px; }
+
+  /* ── App grid: colonne unique ──────────────────────────────── */
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  /* ── Header ─────────────────────────────────────────────────── */
+  #header {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .header-brand {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    gap: 6px;
+  }
+  .header-brand-sub { display: none; }
+  .header-right {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .header-time { display: none; }
+  #sys-status {
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Sidenav: masquée → barre horizontale en bas du viewport ── */
+  #sidenav {
+    /* On override l'affichage none du 700px breakpoint existant */
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    grid-column: 1 / -1;
+    grid-row: 3;          /* entre main et footer */
+    position: sticky;
+    bottom: 0;
+    top: unset;
+    height: auto;
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid var(--accent-border);
+    background: rgba(5, 13, 21, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 90;
+    overflow: visible;
+  }
+
+  .nav-separator { width: 1px; height: 20px; background: var(--accent-border); margin: 0 4px; }
+
+  .nav-icon { width: 38px; height: 38px; }
+  .nav-icon svg { width: 17px; height: 17px; }
+
+  /* Tooltip: au-dessus sur mobile */
+  .nav-icon .tooltip {
+    left: 50%;
+    top: unset;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  /* ── Main ──────────────────────────────────────────────────── */
+  #main {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 20px 12px 0;
+    gap: 24px;
+  }
+
+  /* ── Console label ─────────────────────────────────────────── */
+  .console-label {
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    align-self: center;
+    text-align: center;
+  }
+  .console-label::before { display: none; }
+
+  /* ── Onboarding hint ───────────────────────────────────────── */
+  .onboarding-hint {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* ── Console section ───────────────────────────────────────── */
+  #console-section {
+    width: 100%;
+    gap: 10px;
+  }
+
+  /* ── Console device: version mobile compacte ─────────────────
+     On cache la coque réelle et on affiche uniquement l'écran
+     avec les boutons de contrôle en dessous.
+  ─────────────────────────────────────────────────────────────── */
+  #console-device {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    animation: none;
+  }
+
+  /* Cacher les éléments décoratifs de la coque */
+  .console-body,
+  .console-body::before,
+  .console-body::after,
+  .console-left-controls,
+  .console-right-controls,
+  .console-bottom-bar,
+  .speaker-grill,
+  .cartridge-slot { display: none !important; }
+
+  /* Écran plein-device */
+  .console-screen-bezel {
+    position: relative !important;
+    inset: unset !important;
+    left: unset; right: unset; top: unset; bottom: unset;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 180, 255, 0.28);
+    box-shadow: inset 0 0 24px rgba(0,0,0,0.95);
+    display: block;
+  }
+
+  /* Texte "INSERT CARTRIDGE" centré */
+  .drop-hint {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+  }
+
+  /* Barre de contrôles mobile déjà dans le HTML */
+  .mobile-ctrl-bar {
+    display: flex !important;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 4px;
+  }
+  .mobile-ctrl-bar .ctrl-btn {
+    cursor: pointer;
+    font-size: 8px;
+    padding: 7px 14px;
+    min-width: 56px;
+  }
+
+  /* ── Contenus à l'intérieur de l'écran ───────────────────── */
+  .screen-about,
+  .screen-info {
+    padding: 10px 11px;
+    gap: 6px;
+  }
+  .about-name,
+  .info-title { font-size: 11px; }
+  .about-bio,
+  .info-description { font-size: 10px; line-height: 1.55; }
+  .about-stats { grid-template-columns: 1fr 1fr; gap: 5px; }
+  .stat-value { font-size: 15px; }
+  .stat-label { font-size: 6px; }
+  .info-grid { grid-template-columns: 1fr; gap: 5px; }
+  .info-field p { font-size: 10px; }
+  .info-techs,
+  .about-skills { gap: 3px; }
+  .tag { font-size: 7px; padding: 2px 5px; }
+
+  /* ── Scroll arrow ──────────────────────────────────────────── */
+  .scroll-arrow { font-size: 9px; }
+
+  /* ── Section divider ───────────────────────────────────────── */
+  .section-divider { width: 100%; }
+  .divider-label { font-size: 8px; letter-spacing: 0.14em; }
+
+  /* ── Vault ─────────────────────────────────────────────────── */
+  #vault-section { padding-bottom: 100px; }   /* espace pour sidenav sticky */
+
+  .vault-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .vault-title { font-size: 9px; letter-spacing: 0.16em; }
+  .vault-meta { gap: 10px; }
+  .vault-hint { font-size: 7px; }
+  .vault-count { font-size: 8px; }
+
+  /* ── Filter bar ────────────────────────────────────────────── */
+  .vault-filter-bar {
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    margin-bottom: 18px;
+  }
+  .vault-filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    font-size: 8px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  /* ── Vault grid: 2 colonnes ────────────────────────────────── */
+  .vault-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  /* ── Cartridge card ────────────────────────────────────────── */
+  .cartridge { cursor: pointer; }
+  .cartridge-name { font-size: 7px; }
+  .cartridge-sub  { font-size: 5px; }
+  .cartridge-label { padding: 6px 6px 8px; }
+
+  /* Désactiver le tilt 3D sur touch */
+  .cartridge { transform: none !important; }
+  .cartridge-sheen { display: none; }
+
+  /* Hover badge: visible au tap (via :active sur mobile) */
+  .cartridge:active .cartridge-hover-badge {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── Expand modal ──────────────────────────────────────────── */
+  #expand-modal { padding: 12px; }
+  .expand-modal-inner {
+    max-height: 92vh;
+    border-radius: 8px;
+  }
+  .expand-modal-header {
+    padding: 12px 14px;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .expand-modal-title { font-size: 11px; letter-spacing: 0.07em; }
+  .expand-modal-tagline { font-size: 8px; }
+  .expand-modal-body {
+    padding: 14px;
+    gap: 14px;
+  }
+  .expand-cover { height: 160px; }
+  .expand-description { font-size: 12px; }
+  .expand-meta-grid { grid-template-columns: 1fr; gap: 8px; }
+  .expand-links { gap: 6px; }
+  .expand-link-btn { font-size: 8px; padding: 6px 10px; cursor: pointer; }
+  .expand-modal-close { cursor: pointer; font-size: 8px; }
+
+  /* ── Footer ─────────────────────────────────────────────────── */
+  #footer {
+    grid-column: 1 / -1;
+    grid-row: 4;          /* après la sidenav mobile */
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px 14px 20px;
+    margin-top: 0;
+  }
+  .footer-col { align-items: flex-start !important; }
+  .footer-label { font-size: 6px; }
+  .footer-value { font-size: 8px; }
+  #footer-terminal { font-size: 8px; }
+
+  /* ── Toast ─────────────────────────────────────────────────── */
+  #toast-container { bottom: 80px; right: 12px; }   /* au-dessus de la sidenav */
+  .toast { font-size: 9px; max-width: 220px; }
+
+  /* ── Particle canvas: allégé ───────────────────────────────── */
+  #particle-canvas { opacity: 0.25; }
+
+  /* ── Drag & drop: désactivé (touch = tap) ──────────────────── */
+  .drag-ghost { display: none !important; }
+
+  /* ── Boutons en général: cursor pointer sur touch ──────────── */
+  button, a, .filter-btn, .cartridge, .ctrl-btn,
+  .expand-link-btn, .expand-modal-close, .nav-icon,
+  .info-link, .info-expand-btn { cursor: pointer; }
+}
+
+/* ── Tablettes étroites (481–700px) ────────────────────────── */
+@media (min-width: 481px) and (max-width: 700px) {
+  body { cursor: auto; }
+  #cursor { display: none !important; }
+
+  #app { grid-template-columns: 1fr; }
+
+  #header { padding: 12px 18px; }
+  .header-brand-sub { display: none; }
+
+  #sidenav {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    position: sticky;
+    bottom: 0;
+    top: unset;
+    height: auto;
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid var(--accent-border);
+    background: rgba(5, 13, 21, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 90;
+    overflow: visible;
+  }
+  .nav-separator { width: 1px; height: 22px; background: var(--accent-border); margin: 0 4px; }
+  .nav-icon .tooltip {
+    left: 50%;
+    top: unset;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+  }
+
+  #main { padding: 24px 18px 0; gap: 28px; }
+
+  /* Console: garde la coque mais réduite */
+  #console-device {
+    max-width: 520px;
+    height: 260px;
+  }
+  .console-screen-bezel { left: 88px; right: 88px; top: 22px; bottom: 22px; }
+  .console-left-controls, .console-right-controls, .speaker-grill { display: none; }
+  .mobile-ctrl-bar { display: flex !important; }
+
+  .vault-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .cartridge { cursor: pointer; }
+  .cartridge-sheen { display: none; }
+
+  #vault-section { padding-bottom: 90px; }
+  #footer {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    margin-top: 0;
+  }
+
+  #toast-container { bottom: 72px; }
+
+  button, a, .filter-btn, .cartridge, .ctrl-btn,
+  .expand-link-btn, .expand-modal-close, .nav-icon,
+  .info-link, .info-expand-btn { cursor: pointer; }
+}
+
+/* ── Réduction des animations pour préférence utilisateur ───── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
